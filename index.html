@@ -1,11 +1,196 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ADS - P1/P2</title>
+    <meta name="theme-color" content="#164e8a">
+    <meta name="description" content="Sistema para cadastro e gerenciamento de estudantes.">
+    <title>Sistema de Cadastro de Estudantes</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
-    
+    <header class="site-header">
+        <div class="header-content">
+            <a class="brand" href="#inicio" aria-label="Sistema de Cadastro de Estudantes - início">
+                <span class="brand-mark" aria-hidden="true">E</span>
+                <span>
+                    <strong>Sistema de Cadastro</strong>
+                    <small>Gestão de estudantes</small>
+                </span>
+            </a>
+            <nav class="main-nav" aria-label="Navegação principal">
+                <a class="nav-link active" href="#inicio">Visão geral</a>
+                <a class="nav-link" href="#formulario">Cadastro</a>
+                <a class="nav-link" href="#estudantes">Estudantes</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="page-content" id="inicio">
+        <section class="page-heading" aria-labelledby="page-title">
+            <div>
+                <p class="eyebrow">ADMINISTRAÇÃO ACADÊMICA</p>
+                <h1 id="page-title">Sistema de Cadastro de Estudantes</h1>
+                <p class="page-description">Cadastre, acompanhe e mantenha os dados dos estudantes organizados.</p>
+            </div>
+            <a class="button button-primary heading-action" href="#formulario">
+                <span aria-hidden="true">＋</span> Novo estudante
+            </a>
+        </section>
+
+        <div id="feedback" class="feedback" role="status" aria-live="polite" hidden></div>
+
+        <section class="summary-grid" aria-label="Resumo de estudantes">
+            <article class="summary-card">
+                <span class="summary-icon total-icon" aria-hidden="true">▤</span>
+                <div><p>Total de estudantes</p><strong id="total-count">0</strong></div>
+            </article>
+            <article class="summary-card">
+                <span class="summary-icon active-icon" aria-hidden="true">✓</span>
+                <div><p>Estudantes ativos</p><strong id="active-count">0</strong></div>
+            </article>
+            <article class="summary-card">
+                <span class="summary-icon inactive-icon" aria-hidden="true">Ⅱ</span>
+                <div><p>Estudantes inativos</p><strong id="inactive-count">0</strong></div>
+            </article>
+        </section>
+
+        <section class="panel form-panel" id="formulario" aria-labelledby="form-title">
+            <div class="panel-heading">
+                <div>
+                    <p class="eyebrow">DADOS ACADÊMICOS E PESSOAIS</p>
+                    <h2 id="form-title">Cadastrar estudante</h2>
+                </div>
+                <span class="required-note"><span aria-hidden="true">*</span> Campos obrigatórios</span>
+            </div>
+
+            <form id="student-form" novalidate>
+                <input type="hidden" id="student-id">
+                <div class="form-section">
+                    <h3>Informações pessoais</h3>
+                    <div class="form-grid">
+                        <div class="field field-wide">
+                            <label for="full-name">Nome completo <span aria-hidden="true">*</span></label>
+                            <input id="full-name" name="name" type="text" autocomplete="name" maxlength="120" placeholder="Ex.: Maria da Silva" required>
+                        </div>
+                        <div class="field">
+                            <label for="cpf">CPF <span aria-hidden="true">*</span></label>
+                            <input id="cpf" name="cpf" type="text" inputmode="numeric" autocomplete="off" maxlength="14" placeholder="000.000.000-00" required>
+                        </div>
+                        <div class="field">
+                            <label for="birth-date">Data de nascimento <span aria-hidden="true">*</span></label>
+                            <input id="birth-date" name="birthDate" type="date" autocomplete="bday" required>
+                        </div>
+                        <div class="field">
+                            <label for="email">E-mail <span aria-hidden="true">*</span></label>
+                            <input id="email" name="email" type="email" autocomplete="email" maxlength="160" placeholder="estudante@email.com" required>
+                        </div>
+                        <div class="field">
+                            <label for="phone">Telefone <span aria-hidden="true">*</span></label>
+                            <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="16" placeholder="(00) 00000-0000" required>
+                        </div>
+                        <div class="field field-wide">
+                            <label for="address">Endereço <span aria-hidden="true">*</span></label>
+                            <input id="address" name="address" type="text" autocomplete="street-address" maxlength="180" placeholder="Rua, número, bairro e cidade" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Informações acadêmicas</h3>
+                    <div class="form-grid">
+                        <div class="field">
+                            <label for="registration">Matrícula</label>
+                            <input id="registration" name="registration" type="text" readonly aria-describedby="registration-help" placeholder="Gerada automaticamente">
+                            <small id="registration-help">Gerada automaticamente ao salvar.</small>
+                        </div>
+                        <div class="field">
+                            <label for="enrollment-date">Data de cadastro</label>
+                            <input id="enrollment-date" name="enrollmentDate" type="date" readonly>
+                        </div>
+                        <div class="field">
+                            <label for="course">Curso <span aria-hidden="true">*</span></label>
+                            <input id="course" name="course" type="text" maxlength="100" placeholder="Ex.: Análise e Desenvolvimento de Sistemas" required>
+                        </div>
+                        <div class="field">
+                            <label for="class-name">Turma <span aria-hidden="true">*</span></label>
+                            <input id="class-name" name="className" type="text" maxlength="60" placeholder="Ex.: ADS 2026.1" required>
+                        </div>
+                        <div class="field">
+                            <label for="status">Situação <span aria-hidden="true">*</span></label>
+                            <select id="status" name="status" required>
+                                <option value="ativo">Ativo</option>
+                                <option value="inativo">Inativo</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button class="button button-secondary" type="reset" id="clear-button">Limpar formulário</button>
+                    <button class="button button-primary" type="submit" id="save-button">Cadastrar estudante</button>
+                    <button class="button button-secondary" type="button" id="cancel-edit" hidden>Cancelar edição</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="panel students-panel" id="estudantes" aria-labelledby="students-title">
+            <div class="panel-heading list-heading">
+                <div>
+                    <p class="eyebrow">BASE DE DADOS</p>
+                    <h2 id="students-title">Estudantes cadastrados</h2>
+                </div>
+                <span class="result-count" id="result-count">0 registros</span>
+            </div>
+
+            <div class="filters" aria-label="Pesquisa e filtros de estudantes">
+                <div class="field search-field">
+                    <label for="search">Pesquisar</label>
+                    <input id="search" type="search" placeholder="Nome, matrícula ou CPF">
+                </div>
+                <div class="field">
+                    <label for="course-filter">Curso</label>
+                    <select id="course-filter"><option value="">Todos os cursos</option></select>
+                </div>
+                <div class="field">
+                    <label for="class-filter">Turma</label>
+                    <select id="class-filter"><option value="">Todas as turmas</option></select>
+                </div>
+                <div class="field">
+                    <label for="status-filter">Situação</label>
+                    <select id="status-filter">
+                        <option value="">Todas</option>
+                        <option value="ativo">Ativo</option>
+                        <option value="inativo">Inativo</option>
+                    </select>
+                </div>
+                <button class="button button-text clear-filters" type="button" id="clear-filters">Limpar filtros</button>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Estudante</th>
+                            <th scope="col">Matrícula</th>
+                            <th scope="col">Curso / turma</th>
+                            <th scope="col">Contato</th>
+                            <th scope="col">Situação</th>
+                            <th scope="col"><span class="visually-hidden">Ações</span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="student-list"></tbody>
+                </table>
+                <div id="empty-state" class="empty-state" hidden>
+                    <span class="empty-icon" aria-hidden="true">⌕</span>
+                    <h3 id="empty-title">Nenhum estudante cadastrado</h3>
+                    <p id="empty-description">Preencha o formulário acima para adicionar o primeiro estudante.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="page-footer">Os dados são salvos neste navegador e permanecem disponíveis neste dispositivo.</footer>
+    </main>
 </body>
 </html>
